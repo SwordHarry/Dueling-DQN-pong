@@ -3,6 +3,7 @@ from collections import deque
 import gym
 from gym import spaces
 import cv2
+from src.config.config import ENV_ID
 
 cv2.ocl.setUseOpenCL(False)
 
@@ -298,7 +299,7 @@ class LazyFrames(object):
         return self._force()[..., i]
 
 
-def make_atari(env_id, max_episode_steps=None):
+def make_atari(env_id):
     env = gym.make(env_id)
     assert 'NoFrameskip' in env.spec.id
     env = NoopResetEnv(env, noop_max=30)
@@ -321,3 +322,13 @@ def wrap_deepmind(env, episode_life=False, clip_rewards=False, frame_stack=True,
     if frame_stack:
         env = FrameStack(env, 4)
     return env
+
+
+# create the env
+def get_env():
+    env = make_atari(ENV_ID)
+    env = wrap_deepmind(env)
+    frame = env.reset()
+    action_space = env.action_space
+    input_shape = frame._force().transpose(2, 0, 1).shape
+    return env, frame, input_shape, action_space

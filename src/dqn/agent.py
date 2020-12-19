@@ -3,6 +3,7 @@ import random
 import torch
 import torch.nn.functional as F
 import torch.optim as optim
+from src.config.config import *
 from src.dqn.dqn import DuelingDQN
 from src.utils.buffer import MemoryBuffer
 
@@ -121,7 +122,7 @@ class DuelingDQNAgent:
 
     # load the model
     def load(self):
-        pth_path = os.path.join(os.path.abspath('..'), "model", "result", "DuelingDQN_dict.pth")
+        pth_path = os.path.join(RESULT_PATH, MODEL_FILE_NAME + MODEL_FILE_FORMAT)
         self.DuelingDQN.load_state_dict(torch.load(pth_path, map_location=torch.device('cpu')))
         print('Model loaded.')
 

@@ -1,14 +1,13 @@
-import csv
 import math
 import os
-import torch
 import numpy as np
 from src.dqn.agent import DuelingDQNAgent
 from src.config.config import EPSILON_MAX, EPSILON_MIN, EPS_DECAY, TRAIN_FRAMES, LEARNING_START, BATCH_SIZE, \
     PRINT_INTERVAL, \
     UPDATE_TAR_INTERVAL, USE_CUDA, LEARNING_RATE, ENV_ID, TEMP_PATH, RESULT_PATH, \
     MODEL_FILE_FORMAT, MODEL_FILE_NAME, TRAIN_LOG_PATH, TRAIN_LOG_FILE
-from src.utils.atari_wrappers import make_atari, wrap_deepmind
+from src.utils.atari_wrappers import make_atari, wrap_deepmind, get_env
+from src.utils.logger import log_to_file
 
 
 def epsilon_by_frame(frame_idx):
@@ -18,16 +17,10 @@ def epsilon_by_frame(frame_idx):
 
 # train the model
 def train():
-    # create the env
-    env = make_atari(ENV_ID)
-    env = wrap_deepmind(env)
-    frame = env.reset()
-
+    # get the env, input_shape and action_space
+    env, frame, input_shape, action_space = get_env()
     # create the dqn agent
-    action_space = env.action_space
-    input_shape = frame._force().transpose(2, 0, 1).shape
     agent = DuelingDQNAgent(input_shape=input_shape, action_space=action_space, use_cuda=USE_CUDA, lr=LEARNING_RATE)
-
     # begin the train
     episode_reward = 0
     all_rewards = []
@@ -49,16 +42,13 @@ def train():
         # print the log and save the temp model
         if i % PRINT_INTERVAL == 0:
             data_e_er = (i, episode_num, np.mean(all_rewards[-10:]), loss, epsilon)
-            # log: output (episode, episode_reward) to data_episode.csv
-            with open(os.path.join(TRAIN_LOG_PATH, TRAIN_LOG_FILE), 'a', newline='') as log:
-                writer = csv.writer(log)
-                writer.writerow(data_e_er)
+            # save the log
+            log_to_file(data_e_er)
             print("FRAMES: %5d, reward: %5f, loss: %4f, epsilon: %5f, episode: %4d" % (
                 i, np.mean(all_rewards[-10:]), loss, epsilon, episode_num))
             # save the temp model
-            temp_pth_path = os.path.join(TEMP_PATH,
-                                         MODEL_FILE_NAME + str(i) + MODEL_FILE_FORMAT)
-            torch.save(agent.DuelingDQN.state_dict(), temp_pth_path)
+            temp_pth_path = os.path.join(TEMP_PATH, MODEL_FILE_NAME + str(i) + MODEL_FILE_FORMAT)
+            agent.save(temp_pth_path)
         if i % UPDATE_TAR_INTERVAL == 0:
             agent.DuelingDQN_target.load_state_dict(agent.DuelingDQN.state_dict())
 
@@ -70,4 +60,4 @@ def train():
             # avg_reward = float(np.mean(all_rewards[-100:]))
     # save the final result model
     final_pth_path = os.path.join(RESULT_PATH, MODEL_FILE_NAME + MODEL_FILE_FORMAT)
-    torch.save(agent.DuelingDQN.state_dict(), final_pth_path)
+    agent.save(final_pth_path)

@@ -22,7 +22,7 @@ WIN_BREAK = True
 
 # 配置
 IS_TRAIN = True
-ENV_ID = 'PongNoFrameskip-v4'
+ENV_ID = 'PongNoFrameskip-v4'  # only use in no frameskip environment
 # model save path
 TEMP_PATH = os.path.join("model", "temp")
 RESULT_PATH = os.path.join("model", "result")

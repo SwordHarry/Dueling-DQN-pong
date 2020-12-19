@@ -6,19 +6,9 @@ from src.utils.atari_wrappers import *
 import matplotlib.pyplot as plt
 
 
-def make_atari(env_id):
-    env = gym.make(env_id)
-    assert 'NoFrameskip' in env.spec.id
-    env = NoopResetEnv(env, noop_max=30)
-    env = MaxAndSkipEnv(env, skip=4)
-    return env
-
-
 # Create and wrap the environment
 def create_and_wrap_env(is_render=False):
-    env = make_atari(ENV_ID)  # only use in no frameskip environment
-    env = wrap_deepmind(env)
-    test_frame = env.reset()
+    env, test_frame = get_env()
     if is_render:
         env.render()
     for i in range(100):
@@ -28,18 +18,12 @@ def create_and_wrap_env(is_render=False):
 
 # test the model
 def test(is_render=False):
-    # create the env
-    env = make_atari(ENV_ID)
-    env = wrap_deepmind(env)
-    # get the input shape
-    frame = env.reset()
-    input_shape = frame._force().transpose(2, 0, 1).shape
-
+    # get the env, input_shape and action_space
+    env, frame, input_shape, action_space = get_env()
     # save the videos
     env = gym.wrappers.Monitor(env, VIDEO_PATH, force=True)
 
     # use the dqn agent to load model
-    action_space = env.action_space
     agent = DuelingDQNAgent(input_shape=input_shape, action_space=action_space)
     agent.load()
 
