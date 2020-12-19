@@ -35,4 +35,5 @@ VIDEO_PATH = os.path.join("videos", "dqnPongVideo")
 # test model
 TEST_FRAMES = 100000
 # train log file
-TRAIN_LOG_PATH = os.path.join("log", "train_log.csv")
+TRAIN_LOG_PATH = "log"
+TRAIN_LOG_FILE = "train_log.csv"

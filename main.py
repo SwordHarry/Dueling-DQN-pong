@@ -1,11 +1,7 @@
-import os
-import sys
+from src.config.config import TRAIN_LOG_PATH, VIDEO_PATH, TEMP_PATH, RESULT_PATH
 from src.dqn.train import train
-
-# fix the cmd run
-curPath = os.path.abspath(os.path.dirname(__file__))
-rootPath = os.path.split(curPath)[0]
-sys.path.append(rootPath)
+from src.utils.dir_processor import create_dir
 
 if __name__ == '__main__':
+    create_dir([TRAIN_LOG_PATH, VIDEO_PATH, TEMP_PATH, RESULT_PATH])
     train()

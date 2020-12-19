@@ -7,7 +7,7 @@ from src.dqn.agent import DuelingDQNAgent
 from src.config.config import EPSILON_MAX, EPSILON_MIN, EPS_DECAY, TRAIN_FRAMES, LEARNING_START, BATCH_SIZE, \
     PRINT_INTERVAL, \
     UPDATE_TAR_INTERVAL, USE_CUDA, LEARNING_RATE, ENV_ID, TEMP_PATH, RESULT_PATH, \
-    MODEL_FILE_FORMAT, MODEL_FILE_NAME, TRAIN_LOG_PATH
+    MODEL_FILE_FORMAT, MODEL_FILE_NAME, TRAIN_LOG_PATH, TRAIN_LOG_FILE
 from src.utils.atari_wrappers import make_atari, wrap_deepmind
 
 
@@ -53,7 +53,7 @@ def train():
         if i % PRINT_INTERVAL == 0:
             data_e_er = (i, episode_num, np.mean(all_rewards[-10:]), loss, epsilon)
             # log: output (episode, episode_reward) to data_episode.csv
-            with open(os.path.join(work_path, TRAIN_LOG_PATH), 'a', newline='') as log:
+            with open(os.path.join(work_path, TRAIN_LOG_PATH, TRAIN_LOG_FILE), 'a', newline='') as log:
                 writer = csv.writer(log)
                 writer.writerow(data_e_er)
             print("FRAMES: %5d, reward: %5f, loss: %4f, epsilon: %5f, episode: %4d" % (
