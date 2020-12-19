@@ -34,9 +34,6 @@ def train():
     losses = []
     episode_num = 0
 
-    # get the work path
-    work_path = os.path.abspath('..')
-
     for i in range(TRAIN_FRAMES):
         epsilon = epsilon_by_frame(i)
         state_tensor = agent.observe(frame)
@@ -53,13 +50,13 @@ def train():
         if i % PRINT_INTERVAL == 0:
             data_e_er = (i, episode_num, np.mean(all_rewards[-10:]), loss, epsilon)
             # log: output (episode, episode_reward) to data_episode.csv
-            with open(os.path.join(work_path, TRAIN_LOG_PATH, TRAIN_LOG_FILE), 'a', newline='') as log:
+            with open(os.path.join(TRAIN_LOG_PATH, TRAIN_LOG_FILE), 'a', newline='') as log:
                 writer = csv.writer(log)
                 writer.writerow(data_e_er)
             print("FRAMES: %5d, reward: %5f, loss: %4f, epsilon: %5f, episode: %4d" % (
                 i, np.mean(all_rewards[-10:]), loss, epsilon, episode_num))
             # save the temp model
-            temp_pth_path = os.path.join(work_path, TEMP_PATH,
+            temp_pth_path = os.path.join(TEMP_PATH,
                                          MODEL_FILE_NAME + str(i) + MODEL_FILE_FORMAT)
             torch.save(agent.DuelingDQN.state_dict(), temp_pth_path)
         if i % UPDATE_TAR_INTERVAL == 0:
@@ -72,5 +69,5 @@ def train():
             episode_num += 1
             # avg_reward = float(np.mean(all_rewards[-100:]))
     # save the final result model
-    final_pth_path = os.path.join(work_path, RESULT_PATH, MODEL_FILE_NAME + MODEL_FILE_FORMAT)
+    final_pth_path = os.path.join(RESULT_PATH, MODEL_FILE_NAME + MODEL_FILE_FORMAT)
     torch.save(agent.DuelingDQN.state_dict(), final_pth_path)

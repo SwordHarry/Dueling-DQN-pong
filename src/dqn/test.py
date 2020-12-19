@@ -36,9 +36,7 @@ def test(is_render=False):
     input_shape = frame._force().transpose(2, 0, 1).shape
 
     # save the videos
-    work_path = os.path.abspath('..')
-    video_path = os.path.join(work_path, VIDEO_PATH)
-    env = gym.wrappers.Monitor(env, video_path, force=True)
+    env = gym.wrappers.Monitor(env, VIDEO_PATH, force=True)
 
     # use the dqn agent to load model
     action_space = env.action_space
