@@ -27,6 +27,10 @@ def train():
     losses = []
     episode_num = 0
 
+    # the title of log
+    title_tuple = ("frames", "episode", "reward", "loss", "epsilon")
+    log_to_file(title_tuple)
+
     for i in range(TRAIN_FRAMES):
         epsilon = epsilon_by_frame(i)
         state_tensor = agent.observe(frame)
