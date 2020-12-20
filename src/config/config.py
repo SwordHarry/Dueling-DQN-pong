@@ -35,6 +35,7 @@ VIDEO_PATH = os.path.join("videos", "dqnPongVideo")
 # image save path
 IMG_PATH = "img"
 IMG_FILE = "reward_learning_curve"
+IMG_FILE_LR = "reward_learning_curve_lr"
 # test model
 TEST_FRAMES = 100000
 # train log file

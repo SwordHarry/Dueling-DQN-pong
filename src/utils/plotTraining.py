@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 from matplotlib import ticker
 from matplotlib.pyplot import MultipleLocator
 
-from src.config.config import TRAIN_LOG_PATH, TRAIN_LOG_FILE, IMG_PATH, TRAIN_LOG_FILE_LR, IMG_FILE
+from src.config.config import TRAIN_LOG_PATH, TRAIN_LOG_FILE, IMG_PATH, TRAIN_LOG_FILE_LR, IMG_FILE, IMG_FILE_LR
 
 
 # show or save tht plt of the train
-def plot_training(episodes_list, rewards_list, is_save=True, is_compare=True):
+def plot_training(episodes_list, rewards_list, show_index=0, is_save=True, is_compare=True):
     clear_output(True)
     # title and label
     plt.title('reward learning curve', fontsize=24)
@@ -28,12 +28,15 @@ def plot_training(episodes_list, rewards_list, is_save=True, is_compare=True):
 
     # fig, ax = plt.subplots()
     # set the plot
-    plt.plot(episodes_list[0], rewards_list[0], color='blue', label="origin")
+    config_list = [('blue', 'origin', IMG_FILE), ('red', 'lr', IMG_FILE_LR)]
+    plt.plot(episodes_list[show_index], rewards_list[show_index],
+             color=config_list[show_index][0], label=config_list[show_index][1])
     if is_compare:
-        plt.plot(episodes_list[1], rewards_list[1], color="red", label="lr")
+        plt.plot(episodes_list[1 - show_index], rewards_list[1 - show_index],
+                 color=config_list[1-show_index][0], label=config_list[1-show_index][1])
     plt.legend()
     if is_save:
-        plt.savefig(os.path.join(IMG_PATH, IMG_FILE))
+        plt.savefig(os.path.join(IMG_PATH, config_list[show_index][2]))
     plt.show()
 
 
@@ -47,7 +50,7 @@ def save_plt_reward_frame():
     e_lr, r_lr = get_episodes_rewards(TRAIN_LOG_FILE_LR)
     episodes_list.append(e_lr)
     rewards_list.append(r_lr)
-    plot_training(episodes_list, rewards_list)
+    plot_training(episodes_list, rewards_list, show_index=0, is_compare=False)
 
 
 def get_episodes_rewards(file_str):
@@ -58,9 +61,8 @@ def get_episodes_rewards(file_str):
         title_list = next(csv_reader)  # 读取第一行每一列的标题，或者略过第一行有问题的数据
         for row in csv_reader:  # 将csv 文件中的数据保存到birth_data中
             episode = row[0]
-            episode = int(episode)/1000
+            episode = int(episode) / 1000
             reward = row[2]
             episode_list.append(episode)
             reward_list.append(reward)
     return list(map(int, episode_list)), list(map(float, reward_list))
-
