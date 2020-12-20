@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib import ticker
 from matplotlib.pyplot import MultipleLocator
 
-from src.config.config import TRAIN_LOG_PATH, TRAIN_LOG_FILE, IMG_PATH, TRAIN_LOG_FILE_LR
+from src.config.config import TRAIN_LOG_PATH, TRAIN_LOG_FILE, IMG_PATH, TRAIN_LOG_FILE_LR, IMG_FILE
 
 
 # show or save tht plt of the train
@@ -33,7 +33,7 @@ def plot_training(episodes_list, rewards_list, is_save=True, is_compare=True):
         plt.plot(episodes_list[1], rewards_list[1], color="red", label="lr")
     plt.legend()
     if is_save:
-        plt.savefig(IMG_PATH)
+        plt.savefig(os.path.join(IMG_PATH, IMG_FILE))
     plt.show()
 
 

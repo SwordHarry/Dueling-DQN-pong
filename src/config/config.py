@@ -33,7 +33,8 @@ MODEL_FILE_FORMAT = ".pth"
 # video save path
 VIDEO_PATH = os.path.join("videos", "dqnPongVideo")
 # image save path
-IMG_PATH = os.path.join("img", "reward_learning_curve")
+IMG_PATH = "img"
+IMG_FILE = "reward_learning_curve"
 # test model
 TEST_FRAMES = 100000
 # train log file
