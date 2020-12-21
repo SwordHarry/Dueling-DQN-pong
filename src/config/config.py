@@ -14,14 +14,11 @@ LEARNING_RATE = 2e-4
 MAX_BUFF = 100000
 UPDATE_TAR_INTERVAL = 1000
 BATCH_SIZE = 32
+LEARNING_START = 10000
+
+# config for the log or file path
 PRINT_INTERVAL = 1000
 LOG_INTERVAL = 1000
-LEARNING_START = 10000
-WIN_REWARD = 18  # Pong-v4
-WIN_BREAK = True
-
-# 配置
-IS_TRAIN = True
 ENV_ID = 'PongNoFrameskip-v4'  # only use in no frameskip environment
 # model save path
 TEMP_PATH = os.path.join("model", "temp")
