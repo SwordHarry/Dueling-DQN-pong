@@ -7,7 +7,7 @@ from src.config.config import EPSILON_MAX, EPSILON_MIN, EPS_DECAY, TRAIN_FRAMES,
     UPDATE_TAR_INTERVAL, USE_CUDA, LEARNING_RATE, ENV_ID, TEMP_PATH, RESULT_PATH, \
     MODEL_FILE_FORMAT, MODEL_FILE_NAME, TRAIN_LOG_PATH, TRAIN_LOG_FILE
 from src.utils.atari_wrappers import make_atari, wrap_deepmind, get_env
-from src.utils.logger import log_to_file
+from src.utils.logger import log_to_file, clear_log
 
 
 def epsilon_by_frame(frame_idx):
@@ -28,6 +28,7 @@ def train():
     episode_num = 0
 
     # the title of log
+    clear_log()  # clear the log content
     title_tuple = ("frames", "episode", "reward", "loss", "epsilon")
     log_to_file(title_tuple)
 
