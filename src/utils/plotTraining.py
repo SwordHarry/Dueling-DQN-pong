@@ -19,7 +19,7 @@ def plot_training(episodes_list, rewards_list, show_index=0, is_save=False, is_c
     plt.xlim(0, episodes_list[0][-1] * 1.2)
     plt.ylim(-25, 25)
     # set the plot
-    config_list = [('blue', 'origin', IMG_FILE), ('red', 'lr', IMG_FILE_LR)]
+    config_list = [('blue', 'origin', IMG_FILE), ('orange', 'batch_size', IMG_FILE_LR)]
     plt.plot(episodes_list[show_index], rewards_list[show_index],
              color=config_list[show_index][0], label=config_list[show_index][1])
     compare_str = ""
@@ -43,7 +43,7 @@ def save_plt_reward_frame():
     e_lr, r_lr = get_episodes_rewards(TRAIN_LOG_FILE_LR)
     episodes_list.append(e_lr)
     rewards_list.append(r_lr)
-    plot_training(episodes_list, rewards_list, show_index=0, is_save=False, is_compare=False)
+    plot_training(episodes_list, rewards_list, show_index=0, is_save=True, is_compare=True)
 
 
 def get_episodes_rewards(file_str):

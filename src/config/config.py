@@ -33,9 +33,11 @@ VIDEO_PATH = os.path.join("videos", "dqnPongVideo")
 IMG_PATH = "img"
 IMG_FILE = "reward_learning_curve"
 IMG_FILE_LR = "reward_learning_curve_lr"
+IMG_FILE_BS = "reward_learning_curve_bs"
 # test model
 TEST_FRAMES = 100000
 # train log file
 TRAIN_LOG_PATH = "log"
 TRAIN_LOG_FILE = "train_log.csv"
-TRAIN_LOG_FILE_LR = "train_log_lr.csv"
+TRAIN_LOG_FILE_LR = "train_log_lr.csv"  # learning rate log
+TRAIN_LOG_FILE_BS = "train_log_bs.csv"  # batch size log
