@@ -20,3 +20,10 @@ sh train.sh
 ```shell script
 sh test.sh
 ```
+
+## folder
+- img: save the img of reward-learning-curve
+- log: save the log about the detail of the training of different model
+- model: save the temporary and final model
+- src: the code
+- videos: save the video about using model to play the pong game
